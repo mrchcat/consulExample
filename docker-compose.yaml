@@ -1,0 +1,48 @@
+services:
+
+  consul:
+    container_name: consul
+    image: hashicorp/consul:1.21.0
+    hostname: consul-server
+    restart: unless-stopped
+    volumes:
+      - ./consul/server1.json:/consul/config/server1.json
+#    command:
+#      - "agent -bootstrap-expect=3"
+    ports:
+      - "8500:8500"
+    networks:
+      - backend
+
+  service_a_title:
+    build: A
+    image: service_a_image
+    container_name: service_a_container
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_APPLICATION_NAME=service_a_application
+      - SPRING_CLOUD_CONSUL_HOST=consul
+      - SPRING_CLOUD_CONSUL_PORT=8500
+      - SPRING_CLOUD_CONSUL_DISCOVERY_SERVICE-NAME=serviceA
+      - SPRING_CLOUD_CONSUL_DISCOVERY_HEALTH-CHECK-PATH=/actuator/health
+    networks:
+      - backend
+
+  service_b_title:
+    build: B
+    image: service_b_image
+    container_name: service_b_container
+    ports:
+      - "9090:9090"
+    environment:
+      - SPRING_APPLICATION_NAME=service_b_application
+      - SPRING_CLOUD_CONSUL_HOST=consul
+      - SPRING_CLOUD_CONSUL_PORT=8500
+      - SPRING_CLOUD_CONSUL_DISCOVERY_SERVICE-NAME=serviceB
+      - SPRING_CLOUD_CONSUL_DISCOVERY_HEALTH-CHECK-PATH=/actuator/health
+    networks:
+      - backend
+
+networks:
+  backend:
