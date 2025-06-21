@@ -1,5 +1,4 @@
-server:
-  port: 8080                   # Порт сервиса А (например, 8080)
+server.port: 8080
 
 management.endpoints.web.exposure.include: info, health
 
@@ -15,6 +14,7 @@ management.endpoints.web.exposure.include: info, health
 #      host: localhost          # Адрес Consul (по умолчанию localhost)
 #      port: 8500               # Порт Consul (8500 по умолчанию)
 #      discovery:
+#        prefer-ip-address: true
 #        health-check-path:
 #        health-check-url: http://dockerhost:8080/actuator/health
 

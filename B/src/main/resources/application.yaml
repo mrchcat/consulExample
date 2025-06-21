@@ -1,5 +1,5 @@
 server:
-  port: 8090                   # Порт сервиса А (например, 8080)
+  port: 9090                   # Порт сервиса А (например, 8080)
 
 management.endpoints.web.exposure.include: info, health
 

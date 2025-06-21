@@ -7,10 +7,11 @@ services:
     restart: unless-stopped
     volumes:
       - ./consul/server1.json:/consul/config/server1.json
-#    command:
-#      - "agent -bootstrap-expect=3"
+    #    command:
+    #      - "agent -bootstrap-expect=3"
     ports:
       - "8500:8500"
+    command: "agent -dev -node=myNode -client=0.0.0.0 -log-level=INFO"
     networks:
       - backend
 
@@ -26,6 +27,7 @@ services:
       - SPRING_CLOUD_CONSUL_PORT=8500
       - SPRING_CLOUD_CONSUL_DISCOVERY_SERVICE-NAME=serviceA
       - SPRING_CLOUD_CONSUL_DISCOVERY_HEALTH-CHECK-PATH=/actuator/health
+      - SPRING_CLOUD_CONSUL_DISCOVERY_PREFER-IP-ADDRESS=true
     networks:
       - backend
 
@@ -41,8 +43,11 @@ services:
       - SPRING_CLOUD_CONSUL_PORT=8500
       - SPRING_CLOUD_CONSUL_DISCOVERY_SERVICE-NAME=serviceB
       - SPRING_CLOUD_CONSUL_DISCOVERY_HEALTH-CHECK-PATH=/actuator/health
+      - SPRING_CLOUD_CONSUL_DISCOVERY_PREFER-IP-ADDRESS=true
+
     networks:
       - backend
 
 networks:
   backend:
+    driver: bridge

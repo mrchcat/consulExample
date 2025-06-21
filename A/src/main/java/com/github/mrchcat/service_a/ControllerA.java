@@ -30,8 +30,18 @@ public class ControllerA {
                 .stream()
                 .findFirst()
                 .map(ServiceInstance::getUri);
-        System.out.println("вызываем="+ uri.get() + "/api/hello");
+        System.out.println("вызываем=" + uri.get() + "/api/hello");
         return restTemplate.getForObject(uri.get() + "/api/hello", String.class);
+    }
+
+    @GetMapping("/get-data3")
+    public String callServiceB3() {
+        Optional<URI> uri = discoveryClient.getInstances("serviceB")
+                .stream()
+                .findFirst()
+                .map(ServiceInstance::getUri);
+        System.out.println("вызываем=" + uri.get() + "/api/hello");
+        return "вызываем=" +uri.get() + "/api/hello";
     }
 
 
